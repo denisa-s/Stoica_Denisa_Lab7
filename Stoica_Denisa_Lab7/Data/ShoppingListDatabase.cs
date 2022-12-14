@@ -32,6 +32,15 @@ namespace Stoica_Denisa_Lab7.Data
         {
             return _database.DeleteAsync(product);
         }
+        public Task<int> DeleteListProductAsync(ListProduct listp)
+        {
+            return _database.DeleteAsync(listp);
+        }
+        public Task<List<ListProduct>> GetListProducts()
+        {
+            return _database.QueryAsync<ListProduct>("select * from ListProduct");
+        }
+       
         public Task<List<Product>> GetProductsAsync()
         {
             return _database.Table<Product>().ToListAsync();

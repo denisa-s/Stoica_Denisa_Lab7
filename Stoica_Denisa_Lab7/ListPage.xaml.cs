@@ -15,9 +15,15 @@ public partial class ListPage : ContentPage
     }
     async void OnDeleteButtonClicked(object sender, EventArgs e)
     {
+        Product product;
         var slist = (ShopList)BindingContext;
-        await App.Database.DeleteShopListAsync(slist);
-        await Navigation.PopAsync();
+        if (listView.SelectedItem != null) {
+            product = listView.SelectedItem as Product;
+            var listProductAll = await App.Database.GetListProducts();
+            var listProduct = listProductAll.FindAll(x => x.ProductID == product.ID & x.ShopListID == slist.ID);
+            await App.Database.DeleteListProductAsync(listProduct.FirstOrDefault());
+            await Navigation.PopAsync();
+        }
     }
     async void OnChooseButtonClicked(object sender, EventArgs e)
     {
